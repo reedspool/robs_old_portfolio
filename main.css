@@ -1,7 +1,7 @@
 img.frame {
   max-width:100%;
   cursor: e-resize;
-  width:48.125%;
+  width:46.125%;
 }
 
 section.slideshowRow {
@@ -17,13 +17,19 @@ div.slideshow {
 }
 
 header{
-    position:fixed;
-    background-color: #fff;
-    background-attachment: fixed;
-    width:100%;
-    left:0;
-    top:0;
-    z-index:1;
+  background: #ffffff;
+  width: 100%;
+  position: fixed;
+  max-height: 92px;
+  z-index: 9001;
+  padding: 0;
+  margin: 0;
+  top:0;
+  left: 0;
+}
+
+header img {
+  max-width: 100%;
 }
 
 body {
@@ -42,14 +48,6 @@ div#nav-top{
     position:relative;
 }
 
-#branding{
-    width:140px;
-    height:79px;
-    display: block;
-    background: url('imgs/top.jpg') no-repeat center center;
-    position:absolute;
-    left:428px;
-}
 
 #nav-top a{
     font-family:"Apercu Medium", Calibri, sans-serif;
