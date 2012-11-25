@@ -1,4 +1,4 @@
-// Global scope
+// Dev note: GLOBAL SCOPE! Better way, there must be.
 
 // Keys are project 'handles', the 
 PROJECT_LIST = 
@@ -15,4 +15,16 @@ PROJECT_LIST =
   'stamp'    : ['stamp1.jpg', 'stamp2.jpg', 'stamp3.jpg'],
   'yk'       : ['yk1.jpg', 'yk2.jpg'],
   'schwag'   : ['schwag1.jpg', 'schwag2.jpg']
-}
+};
+
+PROJECT_ORDER = 
+[
+  ['calendar', 'schwag'],
+  'guide',
+  ['k8h', 'stamp'],
+  'kh',
+  ['oel', 'os'],
+  'yk',
+  'sp',
+  ['post', 'sg']
+];

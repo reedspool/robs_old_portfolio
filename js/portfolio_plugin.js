@@ -7,7 +7,7 @@
  *    * Include jQuery.js, and this file
  *    * Call $("portfolioContainer").portfolio() to initialize portfolio
  **/
-(function ( $ ){
+(function ($) {
 
   var public_methods = {
 	  init       : initPortfolio,      // Takes 1 arg: hash for settings
@@ -50,14 +50,14 @@
   }
 
   function showNextImage($frame) {
-    var data = $frame.data('slideshow')
+    var data = $frame.data('slideshow');
     var curIndex = data['curIndex'];
     var handle = data['handle'];
 
-    $frame.attr('src', getSRC(handle, curIndex + 1));
+    showImage($frame, curIndex + 1);
 
     $.extend(data, { 'curIndex' : curIndex + 1 });
-    $el.data('slideshow', data);
+    $frame.data('slideshow', data);
   }
   
   // Private method definitions
@@ -68,9 +68,51 @@
   }
   
   function buildAllSlideshows($this) {
+    var row;
+    var $el;
+
+    $this.html('');
+
+    for (var i = 0; i < PROJECT_ORDER.length; i++) {
+      var row = PROJECT_ORDER[i];
+      switch(typeof(row)) {
+        case "string":
+          $el = buildSingleSlideshowRow(row);
+          break;
+        case "object":
+          $el = buildDoubleSlideshowRow(row);
+          break;
+      }
+
+      $this.append($el);
+    }
+
+   /* old way
     $this.find('.frame').each( function(i, el) {
       buildSlideshow($(el));
-    });
+    }); */
+  }
+
+  function buildSingleSlideshowRow(handle) {
+    var $frame = buildFrame(handle);
+    buildSlideshow($frame);
+    return buildSlideshowRowContainer().append($frame);
+  }
+
+  function buildDoubleSlideshowRow(handleArr) {
+    var $frameLeft = buildFrame(handleArr[0]).addClass('left');
+    var $frameRight = buildFrame(handleArr[1]).addClass('right');
+    buildSlideshow($frameLeft);
+    buildSlideshow($frameRight);
+    return buildSlideshowRowContainer().append($frameLeft).append($frameRight);
+  }
+
+  function buildSlideshowRowContainer() {
+    return $('<section>').addClass('slideshowRow');
+  }
+
+  function buildFrame(handle) {
+    return $('<img>').addClass('frame').data('project-handle', handle);
   }
 
   function extendSettings(options) {
@@ -79,9 +121,14 @@
 
   function buildSlideshow($el) {
     makeSlideshowData($el);
+    showImage($el, 0);
     $el.click(public_methods['next']);
   }
   
+  function showImage($el, index) {
+    $el.attr('src', getSRC($el.data('project-handle'), index));
+  }
+
   function makeSlideshowData($el) {
     $el.data('slideshow', {
       '$el' : $el,
