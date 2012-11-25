@@ -11,22 +11,12 @@
 
   var public_methods = {
 	  init       : initPortfolio,      // Takes 1 arg: hash for settings
-	  next       : showNextImage
+	  next       : slideshowClicked
   };
     
   var settings = {};
   
-  // Attach our plugin to jQuery.fn
-  $.fn.portfolio = function( method ) {
-    // Public method calling logic. i.e. $some_div.smallCalendar('method')
-	  if ( public_methods[method] ) {
-	    return public_methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-	  } else if (typeof method === 'object' || ! method ) {
-	    return public_methods.init.apply(this, arguments );
-	  } else {
-	    $.error( 'Method ' + method + ' does not exist in portfolio plugin');
-	  }
-  };
+  $.fn.portfolio = publicMethodLogic;
   
   // Public method definitions
   
@@ -36,102 +26,68 @@
    * Initializes plugin with first images of getSRC(handle, index)
    **/
   function initPortfolio(options) {
-      var $this = $(this);
-	    var data  = $this.data('portfolio');
+	    var data  = this.data('portfolio');
     
-	    if ( ! data ) { 
-	      // Plugin is not yet initialized...
-        initialSetup($this, options);	      
-        $this.data('portfolio' , true); // Plugin is now initialized
+	    if ( ! data ) {    // Plugin is not yet initialized...
+        initialSetup(this, options);	      
+        this.data('portfolio' , true); // Plugin is now initialized
 	    } else {
-        // If plugin already initialized, do nothing
+        // Plugin already initialized, do nothing
 	    }	    
 
-	    return $this; // Maintain chainability
+	    return this; // Maintain chainability
   }
-  
-  // Private method definitions
-  
-  function initialSetup($this, options) {
-    settings = $.extend( {}, settings, options);
 
-    $this.find('.slideshow').filter( function() { 
-      return $(this).children('img').length > 0; 
-    }).each( function(i, el) {
-      buildSlideshow($(el));
-    });
-    
-    $(document).scroll(scrollHandler);
-  }
-  
-  function buildSlideshow($el) {
-  
-    var data = {
-      '$el' : $el,
-      'handle' : $el.data('project-handle'),
-      '$frame' : findOrMakeFrame($el),
-      'curIndex': 0
-    };
-    
-    $el.data('slideshow', data);
-    $el.click(public_methods['next']);
-    showFirstImage($el);
-  }
-  
-  function findOrMakeFrame($slideshow) {
-    var $frame = $slideshow.children('.frame');
-    var frameExists = $frame.length > 0;
-    if (frameExists) {
-      return $frame;
-    } else {
-      var newFrame = $('<img class="frame" src="#" />')
-      $slideshow.append(newFrame);
-      return newFrame;
-    }
-  }
-  
-  function showNextImage(e) {
+  /**
+   * slideshowClicked(e)
+   *
+   * Event handler for click action on slideshow
+   **/
+  function slideshowClicked(e) {
     var $this = $(e.currentTarget);
-    var data = $this.data('slideshow')
-    
-    var $frame = data['$frame'];
+
+    showNextImage($this);
+  }
+
+  function showNextImage($frame) {
+    var data = $frame.data('slideshow')
     var curIndex = data['curIndex'];
     var handle = data['handle'];
 
     $frame.attr('src', getSRC(handle, curIndex + 1));
-    
-    data = $.extend({}, data, { 'curIndex' : curIndex + 1 });
-    $this.data('slideshow', data);
 
+    $.extend(data, { 'curIndex' : curIndex + 1 });
+    $el.data('slideshow', data);
   }
   
-  function scrollHandler(e) {
-    var scrollTopAtBottom =  $(document).height() - $(window).height();
-    var scrollAtBottomOfPage = ($(window).scrollTop() == scrollTopAtBottom);
-    if (scrollAtBottomOfPage) {
-      infiniteScrollLoadNext();
-    }
-  }
+  // Private method definitions
 
-  function infiniteScrollLoadNext() {
-    buildSlideshow($('.slideShow').filter(function () {
-      return $(this).children().length == 0;
-    }).first());
+  function initialSetup($this, options) {
+    extendSettings(options);
+    buildAllSlideshows($this);
   }
   
-  function showFirstImage($el) {
-    var data = $el.data('slideshow');
-    var $frame = data['$frame'];
-    var handle = data['handle'];
-    
-    var first = getSRC(handle, 0);
-    var cur = $frame.attr('src');
-    
-    if (cur == first) {
-      return; // Already set, do nothing
-    } else {
-      $frame.attr('src', first);
-    }
+  function buildAllSlideshows($this) {
+    $this.find('.frame').each( function(i, el) {
+      buildSlideshow($(el));
+    });
+  }
+
+  function extendSettings(options) {
+    settings = $.extend( {}, settings, options);
+  }
+
+  function buildSlideshow($el) {
+    makeSlideshowData($el);
+    $el.click(public_methods['next']);
+  }
+  
+  function makeSlideshowData($el) {
+    $el.data('slideshow', {
+      '$el' : $el,
+      'handle' : $el.data('project-handle'),
+      'curIndex': 0
+    });
   }
   
   function getSRC(handle, index) {
@@ -140,5 +96,16 @@
     
     return "imgs/" + PROJECT_LIST[handle][index % projLen];
   }
+
+  function publicMethodLogic( method ) {
+    // Public method calling logic. i.e. $some_div.portfolio('method')
+    if ( public_methods[method] ) {
+      return public_methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+    } else if (typeof method === 'object' || ! method ) {
+      return public_methods.init.apply(this, arguments );
+    } else {
+      $.error( 'Method ' + method + ' does not exist in portfolio plugin');
+    }
+  };
   
 })( jQuery ); // End plugin code
