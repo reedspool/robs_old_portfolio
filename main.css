@@ -14,9 +14,8 @@ img.frame.right {
 }
 
 section.slideshowRow {
-  padding-top: 100px;
   width:100%;
-  margin: 0 auto;
+  margin: 12.5% auto 0 auto;
   text-align: center;
 }
 
@@ -29,11 +28,7 @@ header{
   padding: 0;
   top:0;
   left:0;
-}
-
-header img {
-
-  margin: 0 auto;
+  text-align: center;
 }
 
 body {
