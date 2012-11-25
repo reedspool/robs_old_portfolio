@@ -94,7 +94,7 @@
   }
 
   function buildSingleSlideshowRow(handle) {
-    var $frame = buildFrame(handle);
+    var $frame = buildFrame(handle).addClass('single');
     buildSlideshow($frame);
     return buildSlideshowRowContainer().append($frame);
   }

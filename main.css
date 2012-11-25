@@ -1,16 +1,21 @@
 img.frame {
   max-width:100%;
   cursor: e-resize;
-  width:46.125%;
   display: inline-block;
+}
+
+img.frame.single {
+  width: 78.125%;
 }
 
 img.frame.left {
   margin-right: 1.09375%;
+  width:46.125%;
 }
 
 img.frame.right {
   margin-left: 1.09375%;
+  width:46.125%;
 }
 
 section.slideshowRow {
@@ -40,7 +45,11 @@ img {
   max-width: 100%;
 }
 
-div#portfolioContainer{
+div#portfolioContainer {
     margin: 0 auto;
     max-width:960px;
+}
+
+div#portfolioContainer:last-child {
+  margin: 12.5% auto 6% auto;
 }

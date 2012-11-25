@@ -1,6 +1,8 @@
 // Dev note: GLOBAL SCOPE! Better way, there must be.
 
-// Keys are project 'handles', the 
+// Here is the list of all the projects. It defines the order that the 
+//   slideshow will follow. For example, the calendar project will start
+//   by displaying 'calendar1.jpg' from the imgs folder.
 PROJECT_LIST = 
 {
   'calendar' : ['calendar1.jpg', 'calendar2.jpg', 'calendar3.jpg'],
@@ -16,6 +18,12 @@ PROJECT_LIST =
   'yk'       : ['yk1.jpg', 'yk2.jpg'],
   'schwag'   : ['schwag1.jpg', 'schwag2.jpg']
 };
+
+// This defines how the projects are sorted on the page. For example,
+//   first comes a row containing the projects 'calendar' and 'schwag'. 
+//
+//  The first image to be displayed will be the first item in the list above.
+//   
 
 PROJECT_ORDER = 
 [
