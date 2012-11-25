@@ -2,18 +2,22 @@ img.frame {
   max-width:100%;
   cursor: e-resize;
   width:46.125%;
+  display: inline-block;
+}
+
+img.frame.left {
+  margin-right: 1.09375%;
+}
+
+img.frame.right {
+  margin-left: 1.09375%;
 }
 
 section.slideshowRow {
   padding-top: 100px;
   width:100%;
-}
-
-div.slideshow {
-  display: inline-block;
-  padding-left: 9px;
-  padding-right: 9px;
-  width:100%;
+  margin: 0 auto;
+  text-align: center;
 }
 
 header{
@@ -28,37 +32,16 @@ header{
   left: 0;
 }
 
-header img {
-  max-width: 100%;
-}
-
 body {
   background-color: #fff;
 }
 
 img {
   vertical-align: top;
-}
-
-div#nav-top{
-    width:960px;
-    padding:10px 0;
-    height:79px;
-    margin: 0 auto;
-    position:relative;
-}
-
-
-#nav-top a{
-    font-family:"Apercu Medium", Calibri, sans-serif;
-    font-size:18px;
-    font-weight:600;
-    font-style:normal;
+  max-width: 100%;
 }
 
 div#portfolioContainer{
-    text-align: center;
-    padding-top: 60px;
     margin: 0 auto;
     max-width:960px;
 }
